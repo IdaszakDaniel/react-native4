@@ -58,6 +58,7 @@ class TodoListComponent extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <Text>{JSON.stringify(this.props.todos)} </Text>
         <SectionList
           sections={sectionsData}
           renderItem={ToDoListItem}
