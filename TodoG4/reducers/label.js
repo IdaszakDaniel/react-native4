@@ -15,7 +15,13 @@ const label = (state = initialState, action) => {
       return state;
     }
     case CREATE_LABEL: {
-      return state;
+      let newState = {...state};
+      /**
+       * TODO how inc id?
+       */
+      newState.byId[4] = { id: 4, label: action.payload };
+      newState.ids.push(4);
+      return newState;
     }
     default:
       return state;

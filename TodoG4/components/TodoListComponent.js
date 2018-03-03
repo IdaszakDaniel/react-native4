@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, SectionList, Alert } from "react-native";
+import { StyleSheet, Text, View, Button, SectionList, Alert, Modal, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
 import { ToDoListItem } from './TodoListItemComponent';
-import { DELETE_TODO } from '../actions/types';
+import { AddLabelForm } from './AddLabelFormComponent';
+import { DELETE_TODO, CREATE_LABEL } from '../actions/types';
 import ActionButton from 'react-native-action-button';
 
 
@@ -17,6 +18,9 @@ class TodoListComponent extends Component {
 
   constructor() {
     super();
+    this.state = {
+      modalVisible: false
+    }
   }
 
   _onItemClick = (id) => {
@@ -30,8 +34,17 @@ class TodoListComponent extends Component {
     ]);
   }
 
-  _navigateToLabelsScreen() {
-    this.props.navigation.navigate('Labels');
+  _openLabelsModal() {
+    this.setState({ ...this.state, modalVisible: true});
+  }
+
+  _closeLabelsModal() {
+    this.setState({ ...this.state, modalVisible: false});
+  }
+
+  _onAddLabel(label) {
+    this.props.onAddLabel(label);
+    this._closeLabelsModal();
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -50,13 +63,20 @@ class TodoListComponent extends Component {
           keyExtractor={(item, index) => item.id}
         />
         <ActionButton buttonColor="#16A085">
-          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._navigateToLabelsScreen()}>
+          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._openLabelsModal()}>
             <Text style={styles.actionButtonLabel}>label</Text>
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#26B095' title="New to do" onPress={() => alert('PREMIUM CONTENT! unlock for $4.99')}>
             <Text style={styles.actionButtonLabel}>to do</Text>
           </ActionButton.Item>
         </ActionButton>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.modalVisible}>
+        <AddLabelForm addLabel={() => this._onAddLabel()} cancel={() => this._closeLabelsModal()} />
+      </Modal>
       </View>
     );
   }
@@ -80,6 +100,9 @@ const styles = StyleSheet.create({
   },
   actionButtonLabel: {
     color: '#FFF'
+  },
+  modalContainer: {
+    padding: 25
   }
 });
 
@@ -100,6 +123,12 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: DELETE_TODO,
         payload: id
+      });
+    },
+    onAddLabel: (label) => {
+      dispatch({
+        type: CREATE_LABEL,
+        payload: label
       });
     }
   }
