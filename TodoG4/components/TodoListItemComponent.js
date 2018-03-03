@@ -12,7 +12,7 @@ export class ToDoListItem extends Component {
       {
         text: 'done',
         type: 'default',
-        backgroundColor: 'green',
+        backgroundColor: '#2ECC71',
         onPress: () => {
           this.props.markDone(this.props.todo.id);
         }
@@ -20,6 +20,7 @@ export class ToDoListItem extends Component {
       {
         text: 'delete',
         type: 'delete',
+        backgroundColor: '#E74C3C',
         onPress: () => {
           this.props.deleteItem(this.props.todo.id);
         }
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1
   },
   itemTitle: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: 18
   }
 });

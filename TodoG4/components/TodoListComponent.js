@@ -8,7 +8,7 @@ import { DELETE_TODO } from '../actions/types';
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
-    <Text>{section.title}</Text>
+    <Text style={styles.listSectionTitle}>{section.title}</Text>
   </View>
 );
 
@@ -27,6 +27,12 @@ class TodoListComponent extends Component {
       { text: 'cancel', onPress: () => {}, style: 'cancel' },
       { text: 'delete', onPress: () => this.props.onDeleteItem(id) }
     ]);
+  }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Todo list'
+    }
   }
 
   render() {
@@ -54,7 +60,10 @@ const styles = StyleSheet.create({
   },
   listSection: {
     padding: 15,
-    backgroundColor: "#ECECEC"
+    backgroundColor: "#16A085"
+  },
+  listSectionTitle: {
+    color: "#FFFFFF"
   }
 });
 
