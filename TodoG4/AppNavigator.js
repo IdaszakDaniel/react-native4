@@ -1,12 +1,12 @@
 import React from "react";
 import { StackNavigator } from "react-navigation";
-import TodoComponent from "./components/TodoComponent";
+import { TodoListComponent } from "./components/TodoListComponent";
 import DetailsComponent from "./components/TodoDetailsComponent";
 
 export default StackNavigator(
   {
     Home: {
-      screen: TodoComponent
+      screen: TodoListComponent
     },
     Details: {
       screen: DetailsComponent
