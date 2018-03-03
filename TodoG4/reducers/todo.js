@@ -23,7 +23,7 @@ const initialState = {
       title: "Title 3",
       description: "Description",
       done: false,
-      labelId: 1
+      labelId: 2
     }
   },
 
@@ -60,8 +60,8 @@ const getTodosByLabelName = state =>
   getTodos(state).reduce(
     (result, todo) => ({
       ...result,
-      [getLabelById(state,todo.labelId)]: getTodosForLabelId(
-        todo.labelId,
+      [getLabelById(state, todo.labelId).label]: getTodosForLabelId(
+        getLabelById(state, todo.labelId).label,
         todo,
         result
       )
@@ -69,4 +69,4 @@ const getTodosByLabelName = state =>
     {}
   );
 
-export { todo, getTodos, getTodosIds, getTodoById,getTodosByLabelName };
+export { todo, getTodos, getTodosIds, getTodoById, getTodosByLabelName };
