@@ -1,4 +1,9 @@
-import { CREATE_TODO, UPDATE_TODO, DELETE_TODO } from "../actions/types";
+import {
+  CREATE_TODO,
+  UPDATE_TODO,
+  DELETE_TODO,
+  MARK_AS_DONE_TODO
+} from "../actions/types";
 
 import { getLabelById } from "./label";
 
@@ -36,13 +41,22 @@ const todo = (state = initialState, action) => {
       return state;
     }
     case DELETE_TODO: {
-      const newState = {...state};
+      const newState = { ...state };
       delete newState[action.payload];
       newState.ids.splice(newState.ids.indexOf(action.payload), 1);
       return newState;
     }
+    case MARK_AS_DONE_TODO: {
+      const newState = { ...state };
+      newState.byId[action.payload.id].done = action.payload.done;
+      return newState;
+    }
     case UPDATE_TODO: {
-      return state;
+      console.log(action.payload);
+      const newState = {...state};
+      newState.byId[action.payload.id] = action.payload;
+
+      return newState;
     }
     default:
       return state;

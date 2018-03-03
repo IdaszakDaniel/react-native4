@@ -1,12 +1,20 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, SectionList, Alert, Modal, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  SectionList,
+  Alert,
+  Modal,
+  TextInput
+} from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
-import { ToDoListItem } from './TodoListItemComponent';
+import { ToDoListItem } from "./TodoListItemComponent";
 import { AddLabelForm } from './AddLabelFormComponent';
-import { DELETE_TODO, CREATE_LABEL } from '../actions/types';
+import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL } from "../actions/types";
 import ActionButton from 'react-native-action-button';
-
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
@@ -15,6 +23,9 @@ const ToDoListSection = ({ section }) => (
 );
 
 class TodoListComponent extends Component {
+  _onItemClick = id => {
+    this.props.navigation.navigate("Details", { id });
+  };
 
   constructor() {
     super();
@@ -32,7 +43,11 @@ class TodoListComponent extends Component {
       { text: 'cancel', onPress: () => {}, style: 'cancel' },
       { text: 'delete', onPress: () => this.props.onDeleteItem(id) }
     ]);
-  }
+  };
+
+  _onMarkDone = (id, done = true) => {
+    this.props.markDone(id, done);
+  };
 
   _openLabelsModal() {
     this.setState({ ...this.state, modalVisible: true});
@@ -49,16 +64,23 @@ class TodoListComponent extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Todo list'
-    }
-  }
+      headerTitle: "Todo list"
+    };
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <SectionList
           sections={this.props.data}
-          renderItem={({item}) => <ToDoListItem todo={item} markDone={this._onMarkDone} itemClick={this._onItemClick} deleteItem={this._onDeleteItem} />}
+          renderItem={({ item }) => (
+            <ToDoListItem
+              todo={item}
+              markDone={this._onMarkDone}
+              itemClick={this._onItemClick}
+              deleteItem={this._onDeleteItem}
+            />
+          )}
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
@@ -119,7 +141,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteItem: (id) => {
+    onDeleteItem: id => {
       dispatch({
         type: DELETE_TODO,
         payload: id
@@ -130,9 +152,15 @@ const mapDispatchToProps = dispatch => {
         type: CREATE_LABEL,
         payload: label
       });
+    },
+    markDone: (id, done) => {
+      dispatch({
+        type: MARK_AS_DONE_TODO,
+        payload: { id, done }
+      });
     }
-  }
-}
+  };
+};
 
 const TodoListComponentContainer = connect(mapStateToProps, mapDispatchToProps)(
   TodoListComponent
