@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import TodoComponent  from './todoComponent.js';
+import TodoComponent  from './components/TodoComponent';
 
 export default StackNavigator(
   {
