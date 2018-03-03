@@ -2,13 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Button, SectionList } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
+import { ToDoListItem } from './TodoListItemComponent';
 
-const ToDoListItem = ({ item }) => (
-  <View style={styles.listItem}>
-    <Text style={styles.itemTitle}>{item.title}</Text>
-    <Text>{item.description}</Text>
-  </View>
-);
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
@@ -22,7 +17,7 @@ class TodoListComponent extends Component {
       <View style={styles.container}>
         <SectionList
           sections={this.props.data}
-          renderItem={ToDoListItem}
+          renderItem={({item}) => <ToDoListItem todo={item} />}
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
@@ -43,12 +38,6 @@ const styles = StyleSheet.create({
   listSection: {
     padding: 15,
     backgroundColor: "#ECECEC"
-  },
-  listItem: {
-    padding: 15
-  },
-  itemTitle: {
-    fontWeight: "bold"
   }
 });
 
