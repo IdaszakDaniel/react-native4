@@ -52,8 +52,11 @@ const todo = (state = initialState, action) => {
       return newState;
     }
     case UPDATE_TODO: {
+      console.log(action.payload);
       const newState = {...state};
-      return state;
+      newState.byId[action.payload.id] = action.payload;
+
+      return newState;
     }
     default:
       return state;

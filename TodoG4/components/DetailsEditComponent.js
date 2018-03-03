@@ -28,7 +28,7 @@ export default class DetailsEdit extends React.Component {
                     onChangeText={(description) => this.setState({...this.state,description})}
                 />
                 <View>
-                    <Button title="Save" onPress={this.props.edit}></Button>
+                    <Button title="Save" onPress={()=>{this.props.edit(this.state)}}></Button>
                 </View>
             </View>
         ) 
