@@ -42,6 +42,7 @@ const todo = (state = initialState, action) => {
       return newState;
     }
     case UPDATE_TODO: {
+      const newState = {...state};
       return state;
     }
     default:
