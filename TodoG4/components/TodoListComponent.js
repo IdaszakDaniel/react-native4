@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, SectionList } from "react-native";
+import { StyleSheet, Text, View, Button, SectionList, Alert } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
 import { ToDoListItem } from './TodoListItemComponent';
@@ -19,8 +19,11 @@ class TodoListComponent extends Component {
   }
 
   _onDeleteItem = (id) => {
-    this.props.onDeleteItem(id);
-  }  
+    Alert.alert('Confirm deletion', '', [
+      { text: 'cancel', onPress: () => {}, style: 'cancel' },
+      { text: 'delete', onPress: () => this.props.onDeleteItem(id) }
+    ]);
+  }
 
   render() {
     return (
