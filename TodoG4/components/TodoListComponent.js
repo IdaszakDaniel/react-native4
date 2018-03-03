@@ -14,11 +14,15 @@ import { DELETE_TODO, MARK_AS_DONE_TODO } from "../actions/types";
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
-    <Text>{section.title}</Text>
+    <Text style={styles.listSectionTitle}>{section.title}</Text>
   </View>
 );
 
 class TodoListComponent extends Component {
+  _onItemClick = id => {
+    this.props.navigation.navigate("Details", { id });
+  };
+
   _onDeleteItem = id => {
     Alert.alert("Confirm deletion", "", [
       { text: "cancel", onPress: () => {}, style: "cancel" },
@@ -30,6 +34,12 @@ class TodoListComponent extends Component {
     this.props.markDone(id, done);
   };
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Todo list"
+    };
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -39,6 +49,7 @@ class TodoListComponent extends Component {
             <ToDoListItem
               todo={item}
               markDone={this._onMarkDone}
+              itemClick={this._onItemClick}
               deleteItem={this._onDeleteItem}
             />
           )}
@@ -61,7 +72,10 @@ const styles = StyleSheet.create({
   },
   listSection: {
     padding: 15,
-    backgroundColor: "#ECECEC"
+    backgroundColor: "#16A085"
+  },
+  listSectionTitle: {
+    color: "#FFFFFF"
   }
 });
 
