@@ -1,18 +1,6 @@
-import React from "react";
 import { StackNavigator } from "react-navigation";
-import TodoComponent from "./components/TodoComponent";
-import DetailsComponent from "./components/TodoDetailsComponent";
+import { routes } from "./config/route";
 
-export default StackNavigator(
-  {
-    Home: {
-      screen: TodoComponent
-    },
-    Details: {
-      screen: DetailsComponent
-    }
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
+const AppNavigator = StackNavigator(routes);
+
+export { AppNavigator };

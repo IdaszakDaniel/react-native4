@@ -1,13 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import AppNavigator from './AppNavigator';
-import { connect } from 'react-redux';
+import React from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { AppNavigator } from "./AppNavigator";
+import { Provider } from "react-redux";
+import { store } from "./config/store";
 
-
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
     return (
-      <AppNavigator/>
+      <Provider store={store}>
+        <AppNavigator/>
+      </Provider>
     );
   }
-};
+}
+
+export default  App ;
