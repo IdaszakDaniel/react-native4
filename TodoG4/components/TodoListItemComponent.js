@@ -14,14 +14,14 @@ export class ToDoListItem extends Component {
         type: 'default',
         backgroundColor: 'green',
         onPress: () => {
-          alert(this.props.todo.id);
+          this.props.markDone(this.props.todo.id);
         }
       },
       {
         text: 'delete',
         type: 'delete',
         onPress: () => {
-          alert(this.props.todo.id);
+          this.props.deleteItem(this.props.todo.id);
         }
       }
     ]
@@ -36,17 +36,16 @@ export class ToDoListItem extends Component {
         </Swipeout>
       )
     }
-  }
+}
 
-  const styles = StyleSheet.create({
-    swipeoutContainer: {
-        backgroundColor: '#FFF'
-    },
-    listItem: {
-      padding: 15
-    },
-    itemTitle: {
-      fontWeight: "bold"
-    }
-  });
-  
+const styles = StyleSheet.create({
+  swipeoutContainer: {
+      backgroundColor: '#FFF'
+  },
+  listItem: {
+    padding: 15
+  },
+  itemTitle: {
+    fontWeight: "bold"
+  }
+});

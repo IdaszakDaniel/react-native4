@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, SectionList } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
 import { ToDoListItem } from './TodoListItemComponent';
+import { DELETE_TODO } from '../actions/types';
 
 
 const ToDoListSection = ({ section }) => (
@@ -12,12 +13,21 @@ const ToDoListSection = ({ section }) => (
 );
 
 class TodoListComponent extends Component {
+
+  constructor() {
+    super();
+  }
+
+  _onDeleteItem = (id) => {
+    this.props.onDeleteItem(id);
+  }  
+
   render() {
     return (
       <View style={styles.container}>
         <SectionList
           sections={this.props.data}
-          renderItem={({item}) => <ToDoListItem todo={item} />}
+          renderItem={({item}) => <ToDoListItem todo={item} markDone={this._onMarkDone} deleteItem={this._onDeleteItem} />}
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
@@ -52,7 +62,18 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const TodoListComponentContainer = connect(mapStateToProps, null)(
+const mapDispatchToProps = dispatch => {
+  return {
+    onDeleteItem: (id) => {
+      dispatch({
+        type: DELETE_TODO,
+        payload: id
+      });
+    }
+  }
+}
+
+const TodoListComponentContainer = connect(mapStateToProps, mapDispatchToProps)(
   TodoListComponent
 );
 export { TodoListComponentContainer as TodoListComponent };

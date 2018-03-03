@@ -36,7 +36,10 @@ const todo = (state = initialState, action) => {
       return state;
     }
     case DELETE_TODO: {
-      return state;
+      const newState = {...state};
+      delete newState[action.payload];
+      newState.ids.splice(newState.ids.indexOf(action.payload), 1);
+      return newState;
     }
     case UPDATE_TODO: {
       return state;
