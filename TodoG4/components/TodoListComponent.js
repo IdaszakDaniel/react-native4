@@ -19,7 +19,7 @@ class TodoListComponent extends Component {
   }
 
   _onItemClick = (id) => {
-    this.props.navigation.navigate('Details');
+    this.props.navigation.navigate('Details', { id });
   }
 
   _onDeleteItem = (id) => {
