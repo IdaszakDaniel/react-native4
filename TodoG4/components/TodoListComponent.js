@@ -18,6 +18,10 @@ class TodoListComponent extends Component {
     super();
   }
 
+  _onItemClick = (id) => {
+    this.props.navigation.navigate('Details');
+  }
+
   _onDeleteItem = (id) => {
     Alert.alert('Confirm deletion', '', [
       { text: 'cancel', onPress: () => {}, style: 'cancel' },
@@ -30,7 +34,7 @@ class TodoListComponent extends Component {
       <View style={styles.container}>
         <SectionList
           sections={this.props.data}
-          renderItem={({item}) => <ToDoListItem todo={item} markDone={this._onMarkDone} deleteItem={this._onDeleteItem} />}
+          renderItem={({item}) => <ToDoListItem todo={item} markDone={this._onMarkDone} itemClick={this._onItemClick} deleteItem={this._onDeleteItem} />}
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
