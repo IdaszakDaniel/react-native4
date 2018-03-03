@@ -1,10 +1,16 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, SectionList, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  SectionList,
+  Alert
+} from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
-import { ToDoListItem } from './TodoListItemComponent';
-import { DELETE_TODO } from '../actions/types';
-
+import { ToDoListItem } from "./TodoListItemComponent";
+import { DELETE_TODO, MARK_AS_DONE_TODO } from "../actions/types";
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
@@ -13,24 +19,29 @@ const ToDoListSection = ({ section }) => (
 );
 
 class TodoListComponent extends Component {
-
-  constructor() {
-    super();
-  }
-
-  _onDeleteItem = (id) => {
-    Alert.alert('Confirm deletion', '', [
-      { text: 'cancel', onPress: () => {}, style: 'cancel' },
-      { text: 'delete', onPress: () => this.props.onDeleteItem(id) }
+  _onDeleteItem = id => {
+    Alert.alert("Confirm deletion", "", [
+      { text: "cancel", onPress: () => {}, style: "cancel" },
+      { text: "delete", onPress: () => this.props.onDeleteItem(id) }
     ]);
-  }
+  };
+
+  _onMarkDone = (id, done = true) => {
+    this.props.markDone(id, done);
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <SectionList
           sections={this.props.data}
-          renderItem={({item}) => <ToDoListItem todo={item} markDone={this._onMarkDone} deleteItem={this._onDeleteItem} />}
+          renderItem={({ item }) => (
+            <ToDoListItem
+              todo={item}
+              markDone={this._onMarkDone}
+              deleteItem={this._onDeleteItem}
+            />
+          )}
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
@@ -67,14 +78,20 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteItem: (id) => {
+    onDeleteItem: id => {
       dispatch({
         type: DELETE_TODO,
         payload: id
       });
+    },
+    markDone: (id, done) => {
+      dispatch({
+        type: MARK_AS_DONE_TODO,
+        payload: { id, done }
+      });
     }
-  }
-}
+  };
+};
 
 const TodoListComponentContainer = connect(mapStateToProps, mapDispatchToProps)(
   TodoListComponent
