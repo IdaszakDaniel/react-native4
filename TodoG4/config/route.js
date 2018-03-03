@@ -1,11 +1,11 @@
-import { TodoComponent } from "../components/TodoComponent";
+import { TodoListComponent } from "../components/TodoListComponent";
 import TodoDetailsComponent from "../components/TodoDetailsComponent";
 
 const initialRoute = "Home";
 
 const routes = {
   Home: {
-    screen: TodoComponent
+    screen: TodoListComponent
   },
   Details: {
     screen: TodoDetailsComponent

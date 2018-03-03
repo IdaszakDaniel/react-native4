@@ -22,6 +22,8 @@ const label = (state = initialState, action) => {
   }
 };
 
-const getLabels = state => state.todo.ids.map(id => state.todo.byId[id]);
+const getLabels = state => state.label.ids.map(id => state.label.byId[id]);
 
-export { label, getLabels };
+const getLabelById = (state, id) => state.label.byId[id];
+
+export { label, getLabels, getLabelById };

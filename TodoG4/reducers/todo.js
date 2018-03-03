@@ -1,5 +1,7 @@
 import { CREATE_TODO, UPDATE_TODO, DELETE_TODO } from "../actions/types";
 
+import { getLabelById } from "./label";
+
 const initialState = {
   byId: {
     1: {
@@ -28,16 +30,15 @@ const initialState = {
   ids: [1, 2, 3]
 };
 
-const todo = (state = initialState, action) => 
- {
+const todo = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_TODO: {
       return state;
     }
-    case DELETE_TODO:{
+    case DELETE_TODO: {
       return state;
     }
-    case UPDATE_TODO:{
+    case UPDATE_TODO: {
       return state;
     }
     default:
@@ -49,6 +50,23 @@ const getTodos = state => state.todo.ids.map(id => state.todo.byId[id]);
 
 const getTodosIds = state => state.todo.ids;
 
-const getTodoById = (state, props) => state.todo.byId[props.id];
+const getTodoById = (state, id) => state.todo.byId[id];
 
-export { todo, getTodos, getTodosIds, getTodoById };
+const getTodosForLabelId = (labelId, todo, result) => {
+  const array = result[labelId] === undefined ? [] : result[labelId];
+  return [...array, todo];
+};
+const getTodosByLabelName = state =>
+  getTodos(state).reduce(
+    (result, todo) => ({
+      ...result,
+      [getLabelById(state,todo.labelId)]: getTodosForLabelId(
+        todo.labelId,
+        todo,
+        result
+      )
+    }),
+    {}
+  );
+
+export { todo, getTodos, getTodosIds, getTodoById,getTodosByLabelName };
