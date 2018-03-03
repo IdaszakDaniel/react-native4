@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
 import { ToDoListItem } from './TodoListItemComponent';
 import { DELETE_TODO } from '../actions/types';
+import ActionButton from 'react-native-action-button';
 
 
 const ToDoListSection = ({ section }) => (
@@ -29,6 +30,10 @@ class TodoListComponent extends Component {
     ]);
   }
 
+  _navigateToLabelsScreen() {
+    this.props.navigation.navigate('Labels');
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Todo list'
@@ -44,6 +49,14 @@ class TodoListComponent extends Component {
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
+        <ActionButton buttonColor="#16A085">
+          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._navigateToLabelsScreen()}>
+            <Text style={styles.actionButtonLabel}>label</Text>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#26B095' title="New to do" onPress={() => alert('PREMIUM CONTENT! unlock for $4.99')}>
+            <Text style={styles.actionButtonLabel}>to do</Text>
+          </ActionButton.Item>
+        </ActionButton>
       </View>
     );
   }
@@ -64,6 +77,9 @@ const styles = StyleSheet.create({
   },
   listSectionTitle: {
     color: "#FFFFFF"
+  },
+  actionButtonLabel: {
+    color: '#FFF'
   }
 });
 
