@@ -59,6 +59,7 @@ const todo = (state = initialState, action) => {
       const newItem = action.payload;
       newItem.id = id;
       newItem.done = false;
+      newItem.labelId = newItem.labelId || 1;
       return {
         ...state,
         byId: {
