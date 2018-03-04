@@ -26,9 +26,9 @@ export class AddLabelForm extends Component {
     return (
       <View style={styles.formContainer}>
         <Text style={styles.label}>Add new todo label:</Text>
-        <TextInput style={styles.input} onChangeText={(text) => this.setState({...this.state, label: text})} placeholder="new label"></TextInput>
-        <Button title="Add label" onPress={() => this._addLabel()}></Button>
-        <Button title="cancel" onPress={() => this._cancel()}></Button>
+        <TextInput autoFocus={true} style={styles.input} onChangeText={(text) => this.setState({...this.state, label: text})} placeholder="new label"></TextInput>
+        <Button title="Add label" disabled={!this.state.label || !this.state.label.length} onPress={() => this._addLabel()}></Button>
+        <Button title="Cancel" onPress={() => this._cancel()}></Button>
       </View>
     )
   }
@@ -36,19 +36,15 @@ export class AddLabelForm extends Component {
 
 const styles = StyleSheet.create({
   formContainer: {
-    padding: 30,
+    padding: 15,
+    marginTop: 35
   },
   label: {
     marginBottom: 15
   },
   input: {
-    height: 60,
-    padding: 10,
-    flex: 1,
-    fontSize: 18,
-    borderColor: 'gray',
-    borderWidth: 1,
-    color: '#000',
-    marginBottom: 15
+    fontSize: 20,
+    padding: 5,
+    marginBottom: 30
   }
 });

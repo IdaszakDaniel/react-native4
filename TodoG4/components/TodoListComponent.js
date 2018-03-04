@@ -122,9 +122,6 @@ const styles = StyleSheet.create({
   },
   actionButtonLabel: {
     color: '#FFF'
-  },
-  modalContainer: {
-    padding: 25
   }
 });
 
