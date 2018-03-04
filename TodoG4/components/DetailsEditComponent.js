@@ -6,7 +6,7 @@ export default class DetailsEdit extends React.Component {
 
     constructor(props){
         super(props);
-        this.state =  this.props.element;
+        this.state = this.props.element;
     }
 
     _cancel() {
@@ -36,7 +36,7 @@ export default class DetailsEdit extends React.Component {
                 /> */}
                 <Picker
                     selectedValue={this.state.labelId}
-                    onValueChange={(itemValue, itemIndex) => {console.log('CHANGE', itemValue)}}>
+                    onValueChange={(itemValue, itemIndex) => { this.setState({...this.state, labelId: itemValue}) }}>
                     { labels }
                 </Picker>
                 <View>
