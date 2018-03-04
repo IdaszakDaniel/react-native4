@@ -9,6 +9,10 @@ export default class DetailsEdit extends React.Component {
         this.state =  this.props.element;
     }
 
+    _cancel() {
+        this.props.cancel();
+    }
+
     render(){
 
         const labels = this.props.labels.map(label => (<Picker.Item label={label.label} value={label.id} />));
@@ -37,6 +41,7 @@ export default class DetailsEdit extends React.Component {
                 </Picker>
                 <View>
                     <Button title="Save" onPress={()=>{this.props.edit(this.state)}}></Button>
+                    <Button title="cancel" onPress={() => this._cancel()}></Button>
                 </View>
             </View>
         ) 

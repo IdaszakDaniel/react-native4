@@ -15,6 +15,7 @@ import { ToDoListItem } from "./TodoListItemComponent";
 import { AddLabelForm } from './AddLabelFormComponent';
 import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL } from "../actions/types";
 import ActionButton from 'react-native-action-button';
+import DetailsEdit from './DetailsEditComponent';
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
@@ -30,7 +31,9 @@ class TodoListComponent extends Component {
   constructor() {
     super();
     this.state = {
-      modalVisible: false
+      labelModalVisible: false,
+      todoModalVisible: false,
+      modalToggle: false
     }
   }
 
@@ -49,12 +52,21 @@ class TodoListComponent extends Component {
     this.props.markDone(id, done);
   };
 
-  _openLabelsModal() {
-    this.setState({ ...this.state, modalVisible: true});
-  }
-
-  _closeLabelsModal() {
-    this.setState({ ...this.state, modalVisible: false});
+  _toggleModal(modal, opened) {
+    switch(modal){
+      case 'label': 
+        this.setState({ ...this.state, labelModalVisible: opened}); 
+        break;
+      case 'todo': 
+        this.setState({ ...this.state, todoModalVisible: opened}); 
+        break;
+    }
+    if(opened){
+      this.setState({ modalToggle: true});
+    }
+    if(!opened){
+      this.setState({ modalToggle: false});
+    }
   }
 
   _onAddLabel(label) {
@@ -85,10 +97,10 @@ class TodoListComponent extends Component {
           keyExtractor={(item, index) => item.id}
         />
         <ActionButton buttonColor="#16A085">
-          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._openLabelsModal()}>
+          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._toggleModal('label', true)}>
             <Text style={styles.actionButtonLabel}>label</Text>
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#26B095' title="New to do" onPress={() => alert('PREMIUM CONTENT! unlock for $4.99')}>
+          <ActionButton.Item buttonColor='#26B095' title="New to do" onPress={() => this._toggleModal('todo', true)}>
             <Text style={styles.actionButtonLabel}>to do</Text>
           </ActionButton.Item>
         </ActionButton>
@@ -96,9 +108,25 @@ class TodoListComponent extends Component {
       <Modal
         animationType="slide"
         transparent={false}
-        visible={this.state.modalVisible}>
-        <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._closeLabelsModal()} />
+        visible={this.state.modalToggle}>
+        {this.state.labelModalVisible 
+          ? <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._toggleModal('label', false)} />
+          : <DetailsEdit element={({})} cancel={() => this._toggleModal('label', false)}/>
+        }
       </Modal>
+
+      {/* <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.todoModalVisible}>
+        <AddLabelForm addLabel={() => this._onAddLabel()} cancel={() => this._toggleModal('todo', false)} />
+        <DetailsEdit element={({})} 
+        // edit={(todo) => {
+        //   this.setState({ edit: false });
+        //   this.props.update(todo);
+        /> 
+      </Modal> */}
+
       </View>
     );
   }
