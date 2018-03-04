@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
+import { getLabelById, getLabels } from '../reducers/label';
 import { ToDoListItem } from "./TodoListItemComponent";
 import { AddLabelForm } from './AddLabelFormComponent';
 import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL } from "../actions/types";
@@ -111,7 +112,7 @@ class TodoListComponent extends Component {
         visible={this.state.modalToggle}>
         {this.state.labelModalVisible 
           ? <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._toggleModal('label', false)} />
-          : <DetailsEdit element={({})} cancel={() => this._toggleModal('label', false)}/>
+          : <DetailsEdit element={({})} labels={this.props.labels} cancel={() => this._toggleModal('label', false)}/>
         }
       </Modal>
 
@@ -160,7 +161,8 @@ const mapStateToProps = (state, props) => {
     title: key
   }));
   return {
-    data
+    data,
+    labels: getLabels(state)
   };
 };
 
