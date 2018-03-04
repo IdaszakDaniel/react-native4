@@ -187,7 +187,6 @@ const mapDispatchToProps = dispatch => {
       });
     },
     create: (todo) => {
-      alert(JSON.stringify(todo));
       dispatch({
         type: CREATE_TODO,
         payload: todo

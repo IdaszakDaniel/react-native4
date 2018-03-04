@@ -56,7 +56,7 @@ const todo = (state = initialState, action) => {
     }
     case CREATE_TODO: {
       // const newState = {...state};
-      const id = Math.random();
+      const id = Math.max(...state.ids) + 1;
       // newState.byId[id] = { id, ...action.payload };
       // newState.ids.push(id);
       // alert(JSON.stringify(newState));
@@ -65,11 +65,18 @@ const todo = (state = initialState, action) => {
       console.log('==============')
       console.log(action.payload)
       console.log('==============')
+
+      const newItem = action.payload;
+      newItem.id = id;
+      newItem.done = false;
+  
+      console.log('newItem', newItem);
+
       return {
         ...state,
         byId: {
           ...state.byId,
-          [id]: action.payload
+          [id]: newItem
         },
         ids: [
           ...state.ids,
