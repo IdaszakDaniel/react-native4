@@ -4,7 +4,7 @@ import DetailsDisplay from './DetailsDisplayComponent';
 import DetailsEdit from './DetailsEditComponent';
 import {connect} from "react-redux";
 import {getTodoById} from '../reducers/todo';
-import {getLabelById} from '../reducers/label';
+import {getLabelById, getLabels} from '../reducers/label';
 import {UPDATE_TODO} from '../actions/types';
 import { get } from 'lodash';
 
@@ -66,7 +66,7 @@ class TodoDetails extends React.Component {
     return (
       <View style={styles.container}>
         {this.state.edit
-          ? <DetailsEdit element={this.props.todo} 
+          ? <DetailsEdit element={this.props.todo} labels={this.props.labels}
               cancel={() => this.setState({ edit: false })}
               edit={(todo) => {
                 this.setState({ edit: false });
@@ -86,7 +86,8 @@ const mapStateToProps = (state, props) => {
   let label = getLabelById(state,todo.labelId);
   todo.label = label.label;
   return {
-    todo
+    todo,
+    labels: getLabels(state)
   };
 };
 
