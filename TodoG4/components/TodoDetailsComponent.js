@@ -66,10 +66,14 @@ class TodoDetails extends React.Component {
     return (
       <View style={styles.container}>
         {this.state.edit
-          ? <DetailsEdit element={this.props.todo} edit={(todo) => {
-            this.setState({ edit: false });
-            this.props.update(todo);
-          }}/> 
+          ? <DetailsEdit element={this.props.todo} 
+              cancel={() => this.setState({ edit: false })}
+              edit={(todo) => {
+                this.setState({ edit: false });
+                this.props.update(todo); 
+                }
+              }
+            /> 
           : <DetailsDisplay element={this.props.todo}/>
         }
       </View>

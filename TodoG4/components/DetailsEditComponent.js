@@ -9,6 +9,10 @@ export default class DetailsEdit extends React.Component {
         this.state =  this.props.element;
     }
 
+    _cancel() {
+        this.props.cancel();
+    }
+
     render(){
         return(
             <View style={styles.mainContainer}>
@@ -29,6 +33,7 @@ export default class DetailsEdit extends React.Component {
                 />
                 <View>
                     <Button title="Save" onPress={()=>{this.props.edit(this.state)}}></Button>
+                    <Button title="cancel" onPress={() => this._cancel()}></Button>
                 </View>
             </View>
         ) 
