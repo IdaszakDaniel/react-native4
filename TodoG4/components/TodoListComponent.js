@@ -117,12 +117,12 @@ class TodoListComponent extends Component {
         {this.state.labelModalVisible 
           ? <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._toggleModal('label', false)} />
           : <DetailsEdit element={({})}
-              cancel={() => this._toggleModal('label', false)}
+              cancel={() => this._toggleModal('todo', false)}
               labels={this.props.labels}
               edit={
                 (todo) => {
                   this._create(todo);
-                  this._toggleModal('label', false);
+                  this._toggleModal('todo', false);
                 }
               }
             />
