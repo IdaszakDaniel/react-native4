@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {getTodoById} from '../reducers/todo';
 import {getLabelById} from '../reducers/label';
 import {UPDATE_TODO} from '../actions/types';
+import { get } from 'lodash';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,15 +36,14 @@ class TodoDetails extends React.Component {
   }
 
   static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
     return {
       headerTitle: 'Todo',
       headerRight: (
         <View style={styles.view_topButton}>
-          {params.isToggled 
+          {get(navigation, 'state.params.isToggled')
           ? <View/>
           : <Button
-              onPress={params.toggle}
+              onPress={get(navigation, 'state.params.toggle', () => {})}
               title="Edit"
               style={styles.topButton}
             />
