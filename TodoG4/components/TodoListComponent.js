@@ -71,7 +71,7 @@ class TodoListComponent extends Component {
 
   _onAddLabel(label) {
     this.props.onAddLabel(label);
-    this._closeLabelsModal();
+    this._toggleModal('label', false);
   }
 
   static navigationOptions = ({ navigation }) => {
