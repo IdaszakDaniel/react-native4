@@ -14,7 +14,7 @@ import { getTodosByLabelName } from "../reducers/todo";
 import { getLabelById, getLabels } from '../reducers/label';
 import { ToDoListItem } from "./TodoListItemComponent";
 import { AddLabelForm } from './AddLabelFormComponent';
-import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL } from "../actions/types";
+import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL, CREATE_TODO } from "../actions/types";
 import ActionButton from 'react-native-action-button';
 import DetailsEdit from './DetailsEditComponent';
 
@@ -51,6 +51,10 @@ class TodoListComponent extends Component {
 
   _onMarkDone = (id, done = true) => {
     this.props.markDone(id, done);
+  };
+
+  _create = (todo) => {
+    this.props.create(todo);
   };
 
   _toggleModal(modal, opened) {
@@ -112,22 +116,18 @@ class TodoListComponent extends Component {
         visible={this.state.modalToggle}>
         {this.state.labelModalVisible 
           ? <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._toggleModal('label', false)} />
-          : <DetailsEdit element={({})} labels={this.props.labels} cancel={() => this._toggleModal('label', false)}/>
+          : <DetailsEdit element={({})}
+              cancel={() => this._toggleModal('label', false)}
+              labels={this.props.labels}
+              edit={
+                (todo) => {
+                  this._create(todo);
+                  this._toggleModal('label', false);
+                }
+              }
+            />
         }
       </Modal>
-
-      {/* <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.state.todoModalVisible}>
-        <AddLabelForm addLabel={() => this._onAddLabel()} cancel={() => this._toggleModal('todo', false)} />
-        <DetailsEdit element={({})} 
-        // edit={(todo) => {
-        //   this.setState({ edit: false });
-        //   this.props.update(todo);
-        /> 
-      </Modal> */}
-
       </View>
     );
   }
@@ -184,6 +184,13 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: MARK_AS_DONE_TODO,
         payload: { id, done }
+      });
+    },
+    create: (todo) => {
+      alert(JSON.stringify(todo));
+      dispatch({
+        type: CREATE_TODO,
+        payload: todo
       });
     }
   };

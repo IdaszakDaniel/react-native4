@@ -2,7 +2,8 @@ import {
   CREATE_TODO,
   UPDATE_TODO,
   DELETE_TODO,
-  MARK_AS_DONE_TODO
+  MARK_AS_DONE_TODO,
+  NEW_TODO
 } from "../actions/types";
 
 import { getLabelById } from "./label";
@@ -37,9 +38,6 @@ const initialState = {
 
 const todo = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_TODO: {
-      return state;
-    }
     case DELETE_TODO: {
       const newState = { ...state };
       delete newState[action.payload];
@@ -52,11 +50,32 @@ const todo = (state = initialState, action) => {
       return newState;
     }
     case UPDATE_TODO: {
-      console.log(action.payload);
       const newState = {...state};
       newState.byId[action.payload.id] = action.payload;
-
       return newState;
+    }
+    case CREATE_TODO: {
+      // const newState = {...state};
+      const id = Math.random();
+      // newState.byId[id] = { id, ...action.payload };
+      // newState.ids.push(id);
+      // alert(JSON.stringify(newState));
+      // return newState;
+
+      console.log('==============')
+      console.log(action.payload)
+      console.log('==============')
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [id]: action.payload
+        },
+        ids: [
+          ...state.ids,
+          id
+        ]
+      }
     }
     default:
       return state;
