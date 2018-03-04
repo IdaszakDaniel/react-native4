@@ -5,12 +5,16 @@ import {
   View,
   Button,
   SectionList,
-  Alert
+  Alert,
+  Modal,
+  TextInput
 } from "react-native";
 import { connect } from "react-redux";
 import { getTodosByLabelName } from "../reducers/todo";
 import { ToDoListItem } from "./TodoListItemComponent";
-import { DELETE_TODO, MARK_AS_DONE_TODO } from "../actions/types";
+import { AddLabelForm } from './AddLabelFormComponent';
+import { DELETE_TODO, MARK_AS_DONE_TODO, CREATE_LABEL } from "../actions/types";
+import ActionButton from 'react-native-action-button';
 
 const ToDoListSection = ({ section }) => (
   <View style={styles.listSection}>
@@ -23,16 +27,40 @@ class TodoListComponent extends Component {
     this.props.navigation.navigate("Details", { id });
   };
 
-  _onDeleteItem = id => {
-    Alert.alert("Confirm deletion", "", [
-      { text: "cancel", onPress: () => {}, style: "cancel" },
-      { text: "delete", onPress: () => this.props.onDeleteItem(id) }
+  constructor() {
+    super();
+    this.state = {
+      modalVisible: false
+    }
+  }
+
+  _onItemClick = (id) => {
+    this.props.navigation.navigate('Details', { id });
+  }
+
+  _onDeleteItem = (id) => {
+    Alert.alert('Confirm deletion', '', [
+      { text: 'cancel', onPress: () => {}, style: 'cancel' },
+      { text: 'delete', onPress: () => this.props.onDeleteItem(id) }
     ]);
   };
 
   _onMarkDone = (id, done = true) => {
     this.props.markDone(id, done);
   };
+
+  _openLabelsModal() {
+    this.setState({ ...this.state, modalVisible: true});
+  }
+
+  _closeLabelsModal() {
+    this.setState({ ...this.state, modalVisible: false});
+  }
+
+  _onAddLabel(label) {
+    this.props.onAddLabel(label);
+    this._closeLabelsModal();
+  }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -56,6 +84,21 @@ class TodoListComponent extends Component {
           renderSectionHeader={ToDoListSection}
           keyExtractor={(item, index) => item.id}
         />
+        <ActionButton buttonColor="#16A085">
+          <ActionButton.Item buttonColor='#26B095' title="New Label" onPress={() => this._openLabelsModal()}>
+            <Text style={styles.actionButtonLabel}>label</Text>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#26B095' title="New to do" onPress={() => alert('PREMIUM CONTENT! unlock for $4.99')}>
+            <Text style={styles.actionButtonLabel}>to do</Text>
+          </ActionButton.Item>
+        </ActionButton>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.modalVisible}>
+        <AddLabelForm addLabel={() => this._onAddLabel()} cancel={() => this._closeLabelsModal()} />
+      </Modal>
       </View>
     );
   }
@@ -76,6 +119,12 @@ const styles = StyleSheet.create({
   },
   listSectionTitle: {
     color: "#FFFFFF"
+  },
+  actionButtonLabel: {
+    color: '#FFF'
+  },
+  modalContainer: {
+    padding: 25
   }
 });
 
@@ -96,6 +145,12 @@ const mapDispatchToProps = dispatch => {
       dispatch({
         type: DELETE_TODO,
         payload: id
+      });
+    },
+    onAddLabel: (label) => {
+      dispatch({
+        type: CREATE_LABEL,
+        payload: label
       });
     },
     markDone: (id, done) => {
