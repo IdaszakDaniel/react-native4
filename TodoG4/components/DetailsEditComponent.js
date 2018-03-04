@@ -15,7 +15,7 @@ export default class DetailsEdit extends React.Component {
 
     render(){
 
-        const labels = this.props.labels.map(label => (<Picker.Item label={label.label} value={label.id} />));
+        const labels = this.props.labels.map(label => (<Picker.Item key={label.id} label={label.label} value={label.id} />));
 
         return(
             <View style={styles.mainContainer}>
