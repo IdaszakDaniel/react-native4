@@ -30,17 +30,13 @@ export default class DetailsEdit extends React.Component {
                     onChangeText={(description) => this.setState({...this.state,description})}
                 />
                 <Text style={styles.label}>Label</Text>
-                {/* <TextInput style={styles.input} 
-                    value={this.state.label} 
-                    onChangeText={(label) => this.setState({...this.state,label})}
-                /> */}
                 <Picker
                     selectedValue={this.state.labelId}
                     onValueChange={(itemValue, itemIndex) => { this.setState({...this.state, labelId: itemValue}) }}>
                     { labels }
                 </Picker>
                 <View>
-                    <Button title="Save" onPress={()=>{this.props.edit(this.state)}}></Button>
+                    <Button title="Save" disabled={!this.state.title} onPress={()=>{this.props.edit(this.state)}}></Button>
                     <Button title="cancel" onPress={() => this._cancel()}></Button>
                 </View>
             </View>
