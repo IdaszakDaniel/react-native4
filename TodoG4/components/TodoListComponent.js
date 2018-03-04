@@ -97,7 +97,7 @@ class TodoListComponent extends Component {
         animationType="slide"
         transparent={false}
         visible={this.state.modalVisible}>
-        <AddLabelForm addLabel={() => this._onAddLabel()} cancel={() => this._closeLabelsModal()} />
+        <AddLabelForm addLabel={(label) => this._onAddLabel(label)} cancel={() => this._closeLabelsModal()} />
       </Modal>
       </View>
     );
